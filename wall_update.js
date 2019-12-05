@@ -40,3 +40,5 @@ app.get('/', function(req,res,next) {
               
     });
 });
+
+app.listen(5000);
