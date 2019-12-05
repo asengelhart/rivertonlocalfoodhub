@@ -8,12 +8,13 @@ app.use(parser.urlencoded( {extended: true }));
 
 app.get('/', function(req,res,next) {
     https.get(
-        {host: "https://https://api.squarespace.com/1.0/commerce/orders",
+        "https://https://api.squarespace.com/1.0/commerce/orders",
+        {
         auth: "Bearer 85d0eca1-fc6a-439f-b743-bd0ba0e18461",
         headers: {
             'Content-Type': "application/json",
             'User-Agent': 'nodejs'
-        },
+        }},
         (resp) => {
             let data = '';
 
@@ -37,8 +38,8 @@ app.get('/', function(req,res,next) {
                 res.send(JSON.stringify(response));
             });
         }
+    );
               
-    });
 });
 
 app.listen(5000);
