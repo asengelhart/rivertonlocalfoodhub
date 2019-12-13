@@ -31,10 +31,14 @@ app.get('/', function(req,res,next) {
                 let row = parsed["result"][i];
                 console.log("Row = " + row);
                 if(row["shippingAddress"]["firstName"] != null) {
-                    data.push(row["shippingAddress"]["firstName"] + " " + row["shippingAddress"]["lastName"]);
+                    let first_name = capitalize(row["shippingAddress"]["firstName"]);
+                    let last_name = capitalize(row["shippingAddress"]["lastName"])
+                    data.push(first_name + " " + last_name);
                 }
                 else if(row["billingAddress"]["firstName"] != null) {
-                    data.push(row["billingAddress"]["firstName"] + " " + row["billingAddress"]["lastName"]);
+                    let first_name = capitalize(row["billingAddress"]["firstName"]);
+                    let last_name = capitalize(row["billingAddress"]["lastName"]);
+                    data.push(first_name + " " + last_name);
                 }
             }
             res.set({'Access-Control-Allow-Origin': '*'});
@@ -42,6 +46,15 @@ app.get('/', function(req,res,next) {
         }
     });
 });
+
+function capitalize(name) {
+    let output = "";
+    output += name[0].toUpperCase();
+    for(let i = 1; i < name.length; i++) {
+        output = name[i].toLowerCase();
+    }
+    return output;
+}
 
 app.listen(process.env.PORT || 5000, (err) => {
     if(err) {raise (err);};
