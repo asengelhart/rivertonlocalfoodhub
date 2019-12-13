@@ -51,7 +51,12 @@ function capitalize(name) {
     let output = "";
     output += name[0].toUpperCase();
     for(let i = 1; i < name.length; i++) {
-        output += name[i].toLowerCase();
+        if(name[i - 1] === " " || (name[i - 1] === name[i - 1].toLowerCase() && name[i] === name[i].toUpperCase())) {
+          output += name[i].toUpperCase();
+        }
+        else {  
+            output += name[i].toLowerCase();
+        }
     }
     return output;
 }
