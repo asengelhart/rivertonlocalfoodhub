@@ -11,7 +11,6 @@ const options = {
             timeout: 10000,
             headers: {
             'Authorization': "Bearer 85d0eca1-fc6a-439f-b743-bd0ba0e18461",
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': "application/json",
             'User-Agent': 'nodejs'
             }
@@ -38,6 +37,7 @@ app.get('/', function(req,res,next) {
                     data.push(row["billingAddress"]["firstName"] + " " + row["billingAddress"]["lastName"]);
                 }
             }
+            res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
         }
     });
