@@ -10,7 +10,7 @@ thisrequest.onreadystatechange = function() {
             var list = document.createElement("ul")
             wall.appendChild(list)
             var response = JSON.parse(this.responseText);
-            console.log(response);
+          	response = response.reverse();
             for(var i = 0; i < response.length; i++) {
                 var item = document.createElement("li");
                 item.innerHTML = response[i];
@@ -20,7 +20,7 @@ thisrequest.onreadystatechange = function() {
         else {console.log(this.status);};
     }
 }
-thisrequest.open("GET", "https://rivertonlocalfoodhub.herokuapp.com:5000");
+thisrequest.open("GET", "https://rivertonlocalfoodhub.herokuapp.com");
 thisrequest.send();
 }
 
