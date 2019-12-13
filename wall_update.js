@@ -42,7 +42,7 @@ app.get('/', function(req,res,next) {
     });
 });
 
-app.listen(5000, (err) => {
+app.listen(process.env.PORT || 5000, (err) => {
     if(err) {raise (err);};
     console.log("Started");
 });
