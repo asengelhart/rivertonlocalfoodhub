@@ -71,6 +71,8 @@ app.get('/', function(req,res,next) {
             for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
                 if(data.includes(OLD_ENTRIES[i]) === false) {
                     data.push(OLD_ENTRIES[i]);
+                }
+            }
             res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
         }
