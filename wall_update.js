@@ -25,7 +25,7 @@ app.get('/', function(req,res,next) {
             next(err);}
         if(!err && resp.statusCode == 200) {
             let parsed = JSON.parse(body);
-            console.log(parsed);
+            //console.log(parsed);
             let data = []
             for(let i = 0; i < parsed["result"].length; i++) {
                 let row = parsed["result"][i];
