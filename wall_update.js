@@ -15,6 +15,32 @@ const options = {
             'User-Agent': 'nodejs'
             }
         }
+        
+const OLD_ENTRIES = ["Ron Warpness",
+                     "Jack Schmidt",
+                     "Kyle Trumble",
+                     "Lance Goede",
+                     "Beth Monteiro",
+                     "Brad Tyndall",
+                     "Amanda Gaudern",
+                     "Elisabeth Lewis",
+                     "Kelly Goede",
+                     "Cathy Rosenthal",
+                     "Karla Borders",
+                     "Anna Werner",
+                     "Alex Engelhart",
+                     "Rebecca Schatza",
+                     "Rich Gard",
+                     "Tara Carr",
+                     "Billie Jo Santee",
+                     "Kyle Clement",
+                     "Walt Conard",
+                     "Ernest Over",
+                     "Cindy Gilpatrick",
+                     "Julie Frebigen",
+                     "Janet Nyberg",
+                     "Ernie Schierwagen",
+                     "Jamie Purcell"];
 app.use(parser.json());
 app.use(parser.urlencoded( {extended: true }));
 
@@ -25,7 +51,7 @@ app.get('/', function(req,res,next) {
             next(err);}
         if(!err && resp.statusCode == 200) {
             let parsed = JSON.parse(body);
-            //console.log(parsed);
+            console.log(parsed);
             let data = []
             for(let i = 0; i < parsed["result"].length; i++) {
                 let row = parsed["result"][i];
@@ -41,6 +67,10 @@ app.get('/', function(req,res,next) {
                     data.push(first_name + " " + last_name);
                 }
             }
+            //going backwards because client-side script reverses result 
+            for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
+                if(data.includes(OLD_ENTRIES[i]) === false) {
+                    data.push(OLD_ENTRIES[i]);
             res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
         }
