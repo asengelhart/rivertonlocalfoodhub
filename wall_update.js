@@ -11,6 +11,7 @@ const options = {
             timeout: 10000,
             headers: {
             'Authorization': "Bearer 85d0eca1-fc6a-439f-b743-bd0ba0e18461",
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': "application/json",
             'User-Agent': 'nodejs'
             }
