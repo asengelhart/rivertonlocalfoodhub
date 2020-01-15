@@ -52,7 +52,7 @@ app.get('/', function(req,res,next) {
         if(!err && resp.statusCode == 200) {
             let parsed = JSON.parse(body);
             console.log(parsed);
-            let data = []
+            let data = [];
             for(let i = 0; i < parsed["result"].length; i++) {
                 let row = parsed["result"][i];
                 console.log("Row = " + row);
@@ -79,6 +79,41 @@ app.get('/', function(req,res,next) {
     });
 });
 
+app.get('/emails', function(req, res, next){
+    request.get(options, function (err, resp, body) {
+        if (err) {next(err);}
+        if(!err && resp.statusCode == 200) {
+            let parsed = JSON.parse(body);
+            let data = [];
+            for(let i = parsed["result"].length - 1; i >= 0; i--) {
+                let row = parsed["result"][i];
+                if(row["customerEmail"] != null) {
+                    //console.log(row["customerEmail"]);
+                    if (getName(row) != null) {
+                        console.log(getName(row));
+                        data.push(getName(row) + ": " + row["customerEmail"]);
+                    }
+                }
+            }
+            res.set({'Access-Control-Allow-Origin': '*'});
+            res.send(JSON.stringify(data));
+        }
+    });
+});
+
+function getName(row) {
+    if(row["shippingAddress"]["firstName"] != null) {
+        let first_name = capitalize(row["shippingAddress"]["firstName"]);
+        let last_name = capitalize(row["shippingAddress"]["lastName"])
+        return first_name + " " + last_name;
+    }
+    else if(row["billingAddress"]["firstName"] != null) {
+        let first_name = capitalize(row["billingAddress"]["firstName"]);
+        let last_name = capitalize(row["billingAddress"]["lastName"]);
+        return first_name + " " + last_name;
+    }    
+    else {return null;}
+}
 function capitalize(name) {
     let output = "";
     output += name[0].toUpperCase();
