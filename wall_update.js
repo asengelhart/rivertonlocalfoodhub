@@ -4,6 +4,8 @@ const parser = require('body-parser');
 const app = express();
 const https = require('https');
 const request = require('request');
+const db = require('mysql');
+
 request.debug = true;
 const options = {
             url: "https://api.squarespace.com/1.0/commerce/orders/",
@@ -78,6 +80,23 @@ app.get('/', function(req,res,next) {
         }
     });
 });
+
+app.post('/offline_members', function(req, res, next){
+    let con = db.createConnection({
+        host: "ui0tj7jn8pyv9lp6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+        user: "qhv7homltu8xavcx",
+        password: "qiem5t8lu9w98ppo",
+        port: 3306,
+        database: "tqzdjgdm43v85qb1"
+    });
+
+    let name = req.body.new_member_name;
+    let join_date = Date.parse(req.body.join_date);
+    con.query('INSERT INTO members (name, join_date) VALUES (?, ?)', [name, join_date], (err, res, fields) => {
+        if(err) next(err);
+    });
+    con.end();
+}
 
 app.get('/emails', function(req, res, next){
     request.get(options, function (err, resp, body) {
