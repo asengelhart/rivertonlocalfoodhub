@@ -4,7 +4,15 @@ const parser = require('body-parser');
 const app = express();
 const https = require('https');
 const request = require('request');
-const db = require('mysql');
+const { client } = require('pg');
+
+const db_options = {
+    host: "ec2-23-21-13-88.compute-1.amazonaws.com",
+    dbname: "db8sn130adtn10",
+    username: "hnhjmlxzjdhbry",
+    password: "2a786f8e6b7458e6417bdc61374efbfc4501caf1c2b161e4fd8b695dadd52a12",
+    port: 5432
+}
 
 request.debug = true;
 const options = {
@@ -70,9 +78,16 @@ app.get('/', function(req,res,next) {
                 }
             }
             //going backwards because client-side script reverses result 
-            for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
+            /*for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
                 if(data.includes(OLD_ENTRIES[i]) === false) {
                     data.push(OLD_ENTRIES[i]);
+                }
+            }*/
+            con = new Client(db_options);
+            offline = con.query("SELECT name FROM members");
+            for(let i = offline.length - 1; i >= 0; i--) {
+                if(data.includes(offline[i]) === false) {
+                    data.push(offline[i]);
                 }
             }
             res.set({'Access-Control-Allow-Origin': '*'});
@@ -82,17 +97,11 @@ app.get('/', function(req,res,next) {
 });
 
 app.post('/offline_members', function(req, res, next){
-    let con = db.createConnection({
-        host: "ui0tj7jn8pyv9lp6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-        user: "qhv7homltu8xavcx",
-        password: "qiem5t8lu9w98ppo",
-        port: 3306,
-        database: "tqzdjgdm43v85qb1"
-    });
-
+    let con = new Client(db_options);
     let name = req.body.new_member_name;
     let join_date = Date.parse(req.body.join_date);
-    con.query('INSERT INTO members (name, join_date) VALUES (?, ?)', [name, join_date], (err, res, fields) => {
+    let email = req.body.email
+    con.query('INSERT INTO members (name, join_date, email) VALUES (, ?, ?)', [name, join_date, email], (err, res, fields) => {
         if(err) next(err);
     });
     con.end();
