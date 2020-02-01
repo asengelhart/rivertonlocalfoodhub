@@ -11,8 +11,8 @@ const db_options = {
     dbname: "db8sn130adtn10",
     username: "hnhjmlxzjdhbry",
     password: "2a786f8e6b7458e6417bdc61374efbfc4501caf1c2b161e4fd8b695dadd52a12",
-    port: 5432
-    ssl: true;
+    port: 5432,
+    ssl: true
 }
 
 request.debug = true;
