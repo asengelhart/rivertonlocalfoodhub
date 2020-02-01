@@ -85,7 +85,7 @@ app.get('/', function(req,res,next) {
                 }
             }*/
             let con = new Client(db_options);
-            await con.connect();
+            con.connect();
             con.query({text: "SELECT * FROM members", rowMode: "array"}, (err, res) => {
                 if(err){ next(err); };
                 for(let i = res.length - 1; i >= 0; i--) {
@@ -94,7 +94,7 @@ app.get('/', function(req,res,next) {
                     }
                 }
             });
-            await con.end();
+            con.end();
             res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
         }
@@ -103,7 +103,7 @@ app.get('/', function(req,res,next) {
 
 app.post('/offline_members', function(req, res, next){
     let con = new Client(db_options);
-    await con.connect();
+    con.connect();
     let name = req.body.new_member_name;
     let join_date = Date.parse(req.body.join_date);
     let email = req.body.email
@@ -114,12 +114,12 @@ app.post('/offline_members', function(req, res, next){
         }
         console.log(res);
     });
-    await con.end();
+    con.end();
 }
 
 app.get('/offline_members', function(req, res, next){
     let con = new Client(db_options);
-    await con.connect();
+    con.connect();
     con.query({text: 'SELECT * FROM members', rowMode: 'array'}, (err, res) => {
         if(err) {next(err);}
         res.set({'Access-Control-Allow-Origin': '*'});
