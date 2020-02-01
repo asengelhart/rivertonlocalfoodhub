@@ -102,6 +102,7 @@ app.get('/', function(req,res,next) {
 });
 
 app.post('/offline_members', function(req, res, next){
+    console.log("Offline Members request received");
     let con = new Client(db_options);
     con.connect();
     let name = req.body.new_member_name;
