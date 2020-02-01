@@ -126,7 +126,7 @@ app.get('/offline_members', function(req, res, next){
         res.send(JSON.stringify(data));
     });
     con.end();
-}
+});
 
 app.get('/emails', function(req, res, next){
     request.get(options, function (err, resp, body) {
