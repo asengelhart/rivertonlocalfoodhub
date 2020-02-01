@@ -12,6 +12,7 @@ const db_options = {
     username: "hnhjmlxzjdhbry",
     password: "2a786f8e6b7458e6417bdc61374efbfc4501caf1c2b161e4fd8b695dadd52a12",
     port: 5432
+    ssl: true;
 }
 
 request.debug = true;
@@ -83,13 +84,17 @@ app.get('/', function(req,res,next) {
                     data.push(OLD_ENTRIES[i]);
                 }
             }*/
-            con = new Client(db_options);
-            offline = con.query("SELECT name FROM members");
-            for(let i = offline.length - 1; i >= 0; i--) {
-                if(data.includes(offline[i]) === false) {
-                    data.push(offline[i]);
+            let con = new Client(db_options);
+            await con.connect();
+            con.query({text: "SELECT * FROM members", rowMode: "array"}, (err, res) => {
+                if(err){ next(err); };
+                for(let i = res.length - 1; i >= 0; i--) {
+                    if(data.includes(offline[i].name) === false) {
+                        data.push(offline[i].name);
+                    }
                 }
-            }
+            });
+            await con.end();
             res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
         }
@@ -98,11 +103,27 @@ app.get('/', function(req,res,next) {
 
 app.post('/offline_members', function(req, res, next){
     let con = new Client(db_options);
+    await con.connect();
     let name = req.body.new_member_name;
     let join_date = Date.parse(req.body.join_date);
     let email = req.body.email
-    con.query('INSERT INTO members (name, join_date, email) VALUES (, ?, ?)', [name, join_date, email], (err, res, fields) => {
-        if(err) next(err);
+    con.query({text: 'INSERT INTO members (name, join_date, email) VALUES ($1, $2, $3)', values: [name, join_date, email]}, (err, res) => {
+        if(err) {
+            console.log(err);
+            next(err);
+        }
+        console.log(res);
+    });
+    await con.end();
+}
+
+app.get('/offline_members', function(req, res, next){
+    let con = new Client(db_options);
+    await con.connect();
+    con.query({text: 'SELECT * FROM members', rowMode: 'array'}, (err, res) => {
+        if(err) {next(err);}
+        res.set({'Access-Control-Allow-Origin': '*'});
+        res.send(JSON.stringify(data));
     });
     con.end();
 }
