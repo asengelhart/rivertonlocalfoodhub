@@ -115,7 +115,7 @@ app.post('/offline_members', function(req, res, next){
         console.log(res);
     });
     con.end();
-}
+});
 
 app.get('/offline_members', function(req, res, next){
     let con = new Client(db_options);
