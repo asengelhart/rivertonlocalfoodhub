@@ -107,7 +107,7 @@ app.post('/offline_members', function(req, res, next){
     let name = req.body.new_member_name;
     let join_date = Date.parse(req.body.join_date);
     let email = req.body.email
-    con.query({text: 'INSERT INTO members (name, join_date, email) VALUES ($1, $2, $3)', values: [name, join_date, email]}, (err, res) => {
+    con.query({text: 'INSERT INTO members (name, join_date, email) VALUES ($1, $2, $3);', values: [name, join_date, email]}, (err, res) => {
         if(err) {
             console.log(err);
             next(err);
@@ -120,7 +120,7 @@ app.post('/offline_members', function(req, res, next){
 app.get('/offline_members', function(req, res, next){
     let con = new Client(db_options);
     con.connect();
-    con.query({text: 'SELECT * FROM members', rowMode: 'array'}, (err, res) => {
+    con.query({text: 'SELECT * FROM members;', rowMode: 'array'}, (err, res) => {
         if(err) {next(err);}
         res.set({'Access-Control-Allow-Origin': '*'});
         res.send(JSON.stringify(data));
