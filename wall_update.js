@@ -79,12 +79,12 @@ app.get('/', function(req,res,next) {
                 }
             }
             //going backwards because client-side script reverses result 
-            /*for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
+            for(let i = OLD_ENTRIES.length - 1; i >= 0; i--) {
                 if(data.includes(OLD_ENTRIES[i]) === false) {
                     data.push(OLD_ENTRIES[i]);
                 }
-            }*/
-            let con = new Client(db_options);
+            }
+            /*let con = new Client(db_options);
             con.connect();
             con.query({text: "SELECT * FROM members", rowMode: "array"}, (err, res) => {
                 if(err){ next(err); };
@@ -93,7 +93,7 @@ app.get('/', function(req,res,next) {
                         data.push(offline[i].name);
                     }
                 }
-            });
+            });*/
             con.end();
             res.set({'Access-Control-Allow-Origin': '*'});
             res.send(JSON.stringify(data));
@@ -103,19 +103,22 @@ app.get('/', function(req,res,next) {
 
 app.post('/offline_members', function(req, res, next){
     console.log("Offline Members request received");
-    let con = new Client(db_options);
+    console.log(req);
+    /*let con = new Client(db_options);
     con.connect();
     let name = req.body.new_member_name;
     let join_date = Date.parse(req.body.join_date);
     let email = req.body.email
-    con.query({text: 'INSERT INTO members (name, join_date, email) VALUES ($1, $2, $3);', values: [name, join_date, email]}, (err, res) => {
+    con.query({text: 'INSERT INTO members (name, join_date, email) VALUES ($1, $2, $3);', values: [name, join_date, email]}, (err, response) => {
         if(err) {
             console.log(err);
             next(err);
         }
-        console.log(res);
+        console.log(response);
     });
-    con.end();
+    con.end();*/
+    res.set({'Access-Control-Allow-Origin': '*'});
+    res.send("Success!");
 });
 
 app.get('/offline_members', function(req, res, next){
