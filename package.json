@@ -1,9 +1,0 @@
-{
-  "name": "wall_update",
-  "version": "0.1.0",
-  "url": "https://rivertonlocalfoodhub.herokuapp.com/",
-  "dependencies": {
-    "express": "^4.17.1",
-    "request": "^2.88.0"
-  }
-}
