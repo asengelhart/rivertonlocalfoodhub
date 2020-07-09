@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: 9.99
+  joined: 2020-07-09 15:16:24
+  active: false
+
+two:
+  first_name: MyString
+  last_name: MyString
+  email: MyString
+  street: MyString
+  city: MyString
+  state: MyString
+  zip: 9.99
+  joined: 2020-07-09 15:16:24
+  active: false
