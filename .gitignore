@@ -35,6 +35,8 @@
 
 # Ignore local notes
 NOTES.md
+old_orders.csv
+.env
 
 /public/packs
 /public/packs-test
