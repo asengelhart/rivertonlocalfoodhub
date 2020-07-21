@@ -3,6 +3,12 @@ class Member < ApplicationRecord
     "#{self.first_name} #{self.last_name}"
   end
 
+  def full_name=(name)
+    split_name = name.split(" ")
+    self.first_name = split_name[0...-1].reduce(""){|memo, substr| "#{memo} #{substr}"}
+    self.last_name = split_name[-1]
+  end
+
   def self.add_from_csv(csv_string)
     # Environment variable should be formatted as "(CSV_column1, intended_variable1)(CSV_column2, intended_variable2)..."
     # Ex. "(first, first_name)(last, last_name)(street, street)(city, city)..."
