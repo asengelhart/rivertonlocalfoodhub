@@ -9,6 +9,10 @@ class SessionsController < ApplicationController
     end
   end
 
+  def new
+    render :new
+  end
+
   def login_params
     params.require(:user).permit(:name, :password)
   end
