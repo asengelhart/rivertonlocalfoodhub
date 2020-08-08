@@ -1,5 +1,6 @@
 class Member < ApplicationRecord
   def full_name=(name)
+    # Assumes that only the last space-separated word is in the last name
     split_name = name.split(" ")
     self.first_name = split_name[0...-1].reduce(""){|memo, substr| "#{memo} #{substr}"}.strip
     self.last_name = split_name[-1]

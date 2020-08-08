@@ -3,16 +3,24 @@ require 'rails_helper'
 RSpec.describe Member, type: :model do
   describe "#full_name=" do
     it "breaks a full name down into first and last names" do
-      member1 = Member.create!
-      member1.full_name = "Cid Garlond"
-      expect(member1.first_name).to eq("Cid")
-      expect(member1.last_name).to eq("Garlond")
+      member = Member.new(full_name: "Cid Garlond")
+      expect(member.first_name).to eq("Cid")
+      expect(member.last_name).to eq("Garlond")
     end
     it "places space-separated words together in first name" do
-      member2 = Member.create!
-      member2.full_name = "Mary Jo Rickardson"
-      expect(member2.first_name).to eq("Mary Jo")
-      expect(member2.last_name).to eq("Rickardson")
+      member = Member.new(full_name: "Billy Joe MacAllister")
+      expect(member.first_name).to eq("Billy Joe")
+      expect(member.last_name).to eq("MacAllister")
+    end
+  end
+  describe "#full_name" do
+    it "returns a concatenated first-and-last name when both are present separately" do
+      member = Member.new(first_name: "Gaius", last_name: "van Baelsar")
+      expect(member.full_name).to eq("Gaius van Baelsar")
+    end
+    it "overrides the full name entry if both first and last name are present" do
+      member = Member.new(full_name: "Gaius van Baelsar", first_name: "Gaius", last_name: "Baelsar")
+      expect(member.full_name).to eq("Gaius Baelsar")
     end
   end
   describe ".add_from_csv_file" do
